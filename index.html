@@ -1,0 +1,65 @@
+<style>
+/* Widget ContactForm | Hapus Kode CSS ini Jika Anda menggunakan Tema Plus UI */ .ContactForm{max-width:500px;font-size:14px} .cArea:not(:last-child){margin-bottom:25px} .cArea label{display:block;position:relative} .cArea label .n{display:block;position:absolute;left:0;right:0;top:0; color:rgba(8,16,43,.4);line-height:1.6em;padding:15px 16px 0;border-radius:4px 4px 0 0;transition:all .1s ease;} .cArea label .n.req::after{content:'*';font-size:85%} .cArea textarea{height:100px} .cArea textarea:focus, .cArea textarea[data-text=fl]{height:200px} .cArea input:focus ~ .n, .cArea textarea:focus ~ .n, .cArea input[data-text=fl] ~ .n, .cArea textarea[data-text=fl] ~ .n{padding-top:5px;color:rgba(8,16,43,.7);font-size:90%;background:#ececec} .cArea .h{display:block;font-size:90%;padding:5px 16px 0;opacity:.7;line-height:normal} .nArea .contact-form-error-message-with-border{color:#d32f2f} .nArea .contact-form-success-message-with-border{color:#2e7b32} .tNtf img.contact-form-cross{display:none} .ContactForm input[type=text], .ContactForm input[type=email], .ContactForm textarea{display:block;width:100%;outline:0;border:0;border-bottom:1px solid rgba(0,0,0,.25);border-radius:4px 4px 0 0;background:#f3f3f4; padding:25px 16px 8px 16px; line-height:1.6em; transition: all .1s ease;} .ContactForm input[type=text]:hover, .ContactForm input[type=email]:hover, .ContactForm textarea:hover{border-color:rgba(0,0,0,.42);background:#ececec} .ContactForm input[type=text]:focus, .ContactForm input[type=email]:focus, .ContactForm textarea:focus, .ContactForm input[data-text=fl], .ContactForm textarea[data-text=fl]{border-color:var(#482dff);background:#ececec} .ContactForm input[type=button], .ContactForm input[type=submit]{display:inline-flex;align-items:center; padding:12px 30px; outline:0;border:0;border-radius:4px; color:#fffdfc; background:var(#482dff); font-size:14px; white-space:nowrap;overflow:hidden;max-width:100%} .ContactForm input[type=button]:hover, .ContactForm input[type=submit]:hover{opacity:.7}
+/* Button CSS | Hapus jika Tidak Diperlukan */
+.cBtn.button{display:inline-flex;align-items:center;margin:10px 0;padding:12px 15px;outline:0;border:0;border-radius:5px;line-height:20px;color:#fffdfc;background:#ffa900;font-size:14px;font-family:Google Sans Text,Arial,Helvetica,sans-serif;white-space:nowrap;overflow:hidden;max-width:320px;cursor:pointer}.cBtn.button:hover{opacity:.9}
+</style>
+
+<form id='cForm'>
+<div class='ContactForm'>
+        <div class='cArea'>
+            <label>
+                <input class='cInpt' name='Name' type='text' required='' />
+            <span class='n req'>Nama</span>
+            </label>
+        </div>
+        <div class='cArea'>
+            <label>
+                <input class='cInpt' name='Email' type='email' required='' />
+            <span class='n req'>Email</span>
+            </label>
+                <span class='h'>Diperlukan Email yang Valid</span>
+        </div>
+        <div class='cArea'>
+            <label>
+                <textarea style='resize:vertical' class='cInpt' name='Message' rows='3' required=''></textarea><span class='n req'>Pesan</span>
+            </label>
+            <span class='h'>Bidang ini Wajib Diisi</span>
+        </div>
+        <div class='cArea'>
+            <button class='cBtn button' type='submit'>Kirim</button>
+        </div>
+        <div class='cArea'>
+            <div class='cf-turnstile' data-sitekey='Site_Key_Cloudflare_Turnstile_kamu_Disini' data-theme='light'></div>
+        </div>
+</div></form>
+
+<script>var inputs = document.querySelectorAll('input[type=text], input[type=email], textarea'); for (var i = 0; i < inputs.length; i++) { var input = inputs[i]; input.addEventListener('input', function() {var bg = this.value ? 'fl' : 'nfl'; this.setAttribute('data-text',bg);}); }</script>
+
+<script>
+window.addEventListener("load", function() {
+  const form = document.getElementById('cForm');
+  form.addEventListener("submit", function(e) {
+    /* Nonaktifkan tombol Kirim untuk mencegah Pengiriman berulang kali */
+    document.querySelector('button[type=submit]').disabled = true;
+    e.preventDefault();
+    const data = new FormData(form);
+    fetch("URL_Cloudflare_Workers_Anda_Disini", {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(data)),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      if (response.ok) {
+      alert("Success!");
+      /* Aktifkan kembali Tombol Kirim */
+      document.querySelector('button[type=submit]').disabled = false;
+      } else {
+      alert("Gagal mengirim Pesan!");
+      document.querySelector('button[type=submit]').disabled = false;
+      }
+    })
+  });
+});
+</script>
