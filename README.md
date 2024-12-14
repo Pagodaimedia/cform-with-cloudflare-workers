@@ -1,1 +1,2 @@
-# Contact Form With Cloudflare Workers
+# Contact form with Cloudflare Workers
+Documentation: <https://open.pagodaimedia.com/r5rBO7>
